@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Assignment11</title>
+
+    <script
+      defer
+      src="https://www.gstatic.com/firebasejs/8.10.1/firebase.js"
+    ></script>
+    <script
+      defer
+      src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"
+    ></script>
+    <script
+      defer
+      src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"
+    ></script>
+  </head>
+  <body>
+    <form
+      id="updatePasswordForm"
+      class="w-80 py-6 bg-purple-400 font-[poppins] grid grid-cols-1 justify-center"
+    >
+      <div class="w-[30] justify-center items-center">
+        <h1
+          class="my-3 justify-center items-center text-center text-white text-2xl"
+        >
+          Update Password
+        </h1>
+        <div class="w-[30] mx-10 my-2 justify-center items-center">
+          <label for="newPassword" class="text-left text-white text-xs"
+            >NEW PASSWORD</label
+          >
+          <input
+            id="newPassword"
+            class="border-black"
+            placeholder="Create New Password"
+          />
+          <p id="newPasswordErrMsg"  class="text-red-700 text-xs"></p>
+          <label for="confirmPassword" class="text-left text-white text-xs"
+            >CONFIRM PASSWORD</label
+          >
+          <input
+            id="confirmPassword"
+            class="border-black"
+            placeholder="Confirm Password"
+          />
+          <p id="confirmPasswordErrMsg" class="text-red-700 text-xs"></p>
+        </div>
+        <button
+          id="updateBtn"
+          class="bg-blue-700 w-20 mx-24 my-3 justify-center items-center font-sans text-white px-2 py-2 rounded"
+        >
+          Update
+        </button>
+      </div>
+    </form>
+    <script>
+      const updatePasswordForm = document.getElementById("updatePasswordForm");
+      const newPasswordInput = document.getElementById("newPassword");
+      const confirmPasswordInput = document.getElementById("confirmPassword");
+      const newPasswordErrMsg = document.getElementById("newPasswordErrMsg");
+      const confirmPasswordErrMsg = document.getElementById(
+        "confirmPasswordErrMsg"
+      );
+
+      newPasswordInput.addEventListener("blur", function (e) {
+        if (e.target.value === "") {
+          newPasswordErrMsg.textContent = "New password cannot be empty*";
+        } else {
+          newPasswordErrMsg.textContent = "";
+        }
+      });
+
+      confirmPasswordInput.addEventListener("blur", function (e) {
+        if (e.target.value === "") {
+          confirmPasswordErrMsg.textContent =
+            "Confirm password cannot be empty*";
+        } else {
+          confirmPasswordErrMsg.textContent = "";
+        }
+      });
+
+      updatePasswordForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        function a() {
+          if (newPasswordInput.value === "") {
+            newPasswordErrMsg.textContent = "New password cannot be empty*";
+          }
+
+          if (confirmPasswordInput.value === "") {
+            confirmPasswordErrMsg.textContent = "Confirm password cannot be empty*";
+          }
+
+        }
+
+        function save() {
+          console.log(newPasswordInput.value, confirmPasswordInput.value);
+          
+          const firebaseConfig = {
+  apiKey: "AIzaSyCUBPMySDxcko2ARIlaoFRqT9ah4CdLAN8",
+  authDomain: "passwordupdate1-b3f12.firebaseapp.com",
+  databaseURL: "https://passwordupdate1-b3f12-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "passwordupdate1-b3f12",
+  storageBucket: "passwordupdate1-b3f12.appspot.com",
+  messagingSenderId: "295134890585",
+  appId: "1:295134890585:web:861a3b71bfcb2c82737f48"
+};
+
+          firebase.initializeApp(firebaseConfig);
+
+          const db = firebase.database().ref("ReqForm");
+
+          db.push({
+            newPassword: newPasswordInput.value,
+            confirmPassword: confirmPasswordInput.value,
+          });
+        }
+      save()
+      
+    });
+    </script>
+  </body>
+</html>
